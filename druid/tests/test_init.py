@@ -57,11 +57,13 @@ def test_page():
 
 
 def test_bootstrap_starter():
-    pg = bootstrap.page_starter(
-        menu=('My website', 'home', 'about', 'contact'),
-        title='Hello World',
-        body=(LOREM, IPSUM),
-        )
+    content = {
+        'menu': ('My website', 'home', 'about', 'contact'),
+        'title': 'Hello World',
+        'body': (LOREM, IPSUM),
+    }
+
+    pg = bootstrap.page_starter(**content)
     assert pg
     result = pg.build()
     assert result
