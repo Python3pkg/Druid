@@ -57,10 +57,11 @@ def test_page():
 
 
 def test_bootstrap_starter():
-    pg = bootstrap.starter(
+    pg = bootstrap.page_starter(
         menu=('My website', 'home', 'about', 'contact'),
         title='Hello World',
         body=(LOREM, IPSUM),
         )
     assert pg
-    print(pg.build())
+    result = pg.build()
+    assert result

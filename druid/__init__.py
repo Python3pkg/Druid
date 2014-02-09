@@ -75,7 +75,7 @@ class bootstrap:
             role="navigation",
             )
 
-    def starter(title='', body='', menu=()):
+    def page_starter(title='', body='', menu=()):
         navbar = bootstrap.navbar(menu) if menu else ()
         print('navbar', navbar)
 
