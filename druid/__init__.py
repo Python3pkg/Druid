@@ -34,6 +34,27 @@ __all__ = ('p',
 p = t.p
 
 
+class Image:
+
+    def __init__(self, druid, path, alt):
+        self.druid = druid
+        self.path = path
+        self.alt = alt
+
+    def soup(self):
+        return t.img(
+            src=join(
+                self.druid.public_static,
+                self.druid.image_prefix,
+                self.path,
+                ),
+            alt=self.alt,
+            ).soup()
+
+    def build(self):
+        return self.soup().prettify()
+
+
 class Druid:
 
     def __init__(
@@ -48,11 +69,8 @@ class Druid:
     def page(self, title=None):
         return t.html(t.head(), t.body())
 
-    def image(self, src, alt):
-        return t.img(
-            src=join(self.public_static, self.image_prefix, src),
-            alt=alt,
-            )
+    def image(self, path, alt):
+        return Image(self, path, alt)
 
 
 class bootstrap:
