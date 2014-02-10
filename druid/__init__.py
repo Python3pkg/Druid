@@ -20,6 +20,7 @@
 __author__ = "OKso <okso.me>"
 __version__ = '0.1'
 
+from os.path import join
 
 import tumulus.lib as lib
 from tumulus.tags import tags as t
@@ -33,8 +34,25 @@ __all__ = ('p',
 p = t.p
 
 
-def page(title=None):
-    return True
+class Druid:
+
+    def __init__(
+            self,
+            local_static='static',
+            public_static='/static',
+            image_prefix='img'):
+        self.local_static = local_static
+        self.public_static = public_static
+        self.image_prefix = image_prefix
+
+    def page(self, title=None):
+        return t.html(t.head(), t.body())
+
+    def image(self, src, alt):
+        return t.img(
+            src=join(self.public_static, self.image_prefix, src),
+            alt=alt,
+            )
 
 
 class bootstrap:

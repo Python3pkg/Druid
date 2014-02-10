@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from druid import page, bootstrap, p
+from druid import Druid, bootstrap, p
 
 
 LOREM = p('''
@@ -52,8 +52,19 @@ lowest carbon emissions of any country".
 
 
 def test_page():
-    pg = page()
-    assert pg
+    druid = Druid()
+    p = druid.page()
+    assert p
+    assert p.build()
+
+
+def test_image():
+    druid = Druid()
+    i = druid.image('banane.png', alt='Banane')
+    assert i
+
+    result = i.build()
+    assert result == '''<img alt="Banane" src="/static/img/banane.png"/>\n'''
 
 
 def test_bootstrap_starter():
