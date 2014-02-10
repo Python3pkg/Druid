@@ -67,13 +67,20 @@ def test_page():
 
 def test_image():
     druid = local_druid()
-    i = druid.image('image.png', alt='An Image')
+    i = druid.image('druid_circle.jpg', alt='Druid Circle')
     assert i
 
-    assert i.file_path() == join(HERE, 'static', 'img', 'image.png')
-
     result = i.build()
-    assert result == '''<img alt="An Image" src="/static/img/image.png"/>\n'''
+    assert result == \
+        '<img alt="Druid Circle" src="/static/img/druid_circle.jpg"/>\n'
+
+    assert i.file_path() == join(HERE, 'static', 'img', 'druid_circle.jpg')
+
+    f = i.file()
+    assert f
+    data = f.read()
+    assert data
+    assert len(data) == 226450
 
 
 def test_bootstrap_starter():
