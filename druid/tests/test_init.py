@@ -18,7 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from os.path import dirname, realpath, join
 from druid import Druid, bootstrap, p
+
+HERE = dirname(realpath(__file__))
 
 
 LOREM = p('''
@@ -51,20 +54,26 @@ lowest carbon emissions of any country".
 ''')
 
 
+def local_druid():
+    return Druid(local_static=join(HERE, 'static'))
+
+
 def test_page():
-    druid = Druid()
+    druid = local_druid()
     p = druid.page()
     assert p
     assert p.build()
 
 
 def test_image():
-    druid = Druid()
-    i = druid.image('banane.png', alt='Banane')
+    druid = local_druid()
+    i = druid.image('image.png', alt='An Image')
     assert i
 
+    assert i.file_path() == join(HERE, 'static', 'img', 'image.png')
+
     result = i.build()
-    assert result == '''<img alt="Banane" src="/static/img/banane.png"/>\n'''
+    assert result == '''<img alt="An Image" src="/static/img/image.png"/>\n'''
 
 
 def test_bootstrap_starter():

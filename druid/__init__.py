@@ -54,6 +54,19 @@ class Image:
     def build(self):
         return self.soup().prettify()
 
+    def file_path(self):
+        return join(
+            self.druid.local_static,
+            self.druid.image_prefix,
+            self.path
+            )
+
+    def file(self, mode='rb'):
+        return open(
+            self.file_path(),
+            mode=mode,
+            )
+
 
 class Druid:
 
