@@ -20,7 +20,8 @@
 __author__ = "OKso <okso.me>"
 __version__ = '0.1'
 
-from os.path import join
+from os.path import join, splitext, isfile
+from PIL import Image as PIL_Image
 
 import tumulus.lib as lib
 from tumulus.tags import tags as t
@@ -32,6 +33,43 @@ __all__ = ('p',
            )
 
 p = t.p
+
+
+class Thumbnail:
+
+    def __init__(self, image, size):
+        self.image = image
+        self.size = size
+        prefix, ext = splitext(image.path)
+        self.path = '{}-{}x{}{}'.format(
+            prefix, self.size[0], self.size[1], ext)
+        self.save()
+
+    def file_path(self):
+        return join(
+            self.image.druid.local_static,
+            self.image.druid.thumb_prefix,
+            self.path,
+            )
+
+    def save(self, force=False):
+        if not isfile(self.file_path()):
+            img = PIL_Image.open(self.image.file_path())
+            out = img.resize(self.size)
+            out.save(self.file_path())
+
+    def soup(self):
+        return t.img(
+            src=join(
+                self.image.druid.public_static,
+                self.image.druid.thumb_prefix,
+                self.path,
+                ),
+            alt=self.image.alt,
+            ).soup()
+
+    def build(self):
+        return self.soup().prettify()
 
 
 class Image:
@@ -54,10 +92,15 @@ class Image:
     def build(self):
         return self.soup().prettify()
 
-    def file_path(self):
+    def file_dir(self):
         return join(
             self.druid.local_static,
             self.druid.image_prefix,
+            )
+
+    def file_path(self):
+        return join(
+            self.file_dir(),
             self.path
             )
 
@@ -67,6 +110,9 @@ class Image:
             mode=mode,
             )
 
+    def thumb(self, size):
+        return Thumbnail(self, size)
+
 
 class Druid:
 
@@ -74,10 +120,13 @@ class Druid:
             self,
             local_static='static',
             public_static='/static',
-            image_prefix='img'):
+            image_prefix='img',
+            thumb_prefix='thumb',
+            ):
         self.local_static = local_static
         self.public_static = public_static
         self.image_prefix = image_prefix
+        self.thumb_prefix = thumb_prefix
 
     def page(self, *args, **kwargs):
         return t.html(
@@ -87,7 +136,7 @@ class Druid:
             t.body(*args, **kwargs),
             )
 
-    def image(self, path, alt):
+    def image(self, path, alt=''):
         return Image(self, path, alt)
 
 
