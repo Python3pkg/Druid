@@ -79,8 +79,8 @@ class Druid:
         self.public_static = public_static
         self.image_prefix = image_prefix
 
-    def page(self, title=None):
-        return t.html(t.head(), t.body())
+    def page(self, *args, **kwargs):
+        return t.html(t.head(), t.body(*args, **kwargs))
 
     def image(self, path, alt):
         return Image(self, path, alt)

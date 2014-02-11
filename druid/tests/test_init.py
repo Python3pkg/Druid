@@ -62,7 +62,16 @@ def test_page():
     druid = local_druid()
     p = druid.page()
     assert p
-    assert p.build()
+    r = p.build()
+    assert r
+    print(r)
+    assert r == '''<!DOCTYPE html>
+<html>
+ <head>
+ </head>
+ <body>
+ </body>
+</html>'''
 
 
 def test_image():
@@ -81,6 +90,25 @@ def test_image():
     data = f.read()
     assert data
     assert len(data) == 226450
+
+
+def test_page_with_image():
+    druid = local_druid()
+    p = druid.page(
+        druid.image('druid_circle.jpg', alt='Druid Circle'),
+        )
+    assert p
+    r = p.build()
+    assert r
+    print(r)
+    assert '''<!DOCTYPE html>
+<html>
+ <head>
+ </head>
+ <body>
+  <img alt="Druid Circle" src="/static/img/druid_circle.jpg"/>
+ </body>
+</html>'''
 
 
 def test_bootstrap_starter():
