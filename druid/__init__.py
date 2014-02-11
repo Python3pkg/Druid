@@ -80,7 +80,12 @@ class Druid:
         self.image_prefix = image_prefix
 
     def page(self, *args, **kwargs):
-        return t.html(t.head(), t.body(*args, **kwargs))
+        return t.html(
+            t.head(
+                f.utf8(),
+                ),
+            t.body(*args, **kwargs),
+            )
 
     def image(self, path, alt):
         return Image(self, path, alt)

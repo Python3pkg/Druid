@@ -68,6 +68,7 @@ def test_page():
     assert r == '''<!DOCTYPE html>
 <html>
  <head>
+  <meta charset="utf-8"/>
  </head>
  <body>
  </body>
@@ -101,9 +102,10 @@ def test_page_with_image():
     r = p.build()
     assert r
     print(r)
-    assert '''<!DOCTYPE html>
+    assert r == '''<!DOCTYPE html>
 <html>
  <head>
+  <meta charset="utf-8"/>
  </head>
  <body>
   <img alt="Druid Circle" src="/static/img/druid_circle.jpg"/>
