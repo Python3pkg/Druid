@@ -18,7 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from os.path import dirname, realpath, join
+from os.path import dirname, realpath, join, isfile
+from os import remove
+
 from druid import Druid, bootstrap, p
 
 HERE = dirname(realpath(__file__))
@@ -111,6 +113,24 @@ def test_page_with_image():
   <img alt="Druid Circle" src="/static/img/druid_circle.jpg"/>
  </body>
 </html>'''
+
+
+def test_thumbnail():
+    thumb_path = join(HERE, 'static', 'thumb', 'druid_circle-100x100.jpg')
+    if isfile(thumb_path):
+        remove(thumb_path)
+
+    druid = local_druid()
+    t = druid.image('druid_circle.jpg', alt='Druid Circle').thumb((100, 100))
+    assert t
+
+    result = t.build()
+    assert result == (
+        '<img alt="Druid Circle"'
+        ' src="/static/thumb/druid_circle-100x100.jpg"/>\n')
+
+    assert t.file_path() == thumb_path
+    assert isfile(t.file_path())
 
 
 def test_bootstrap_starter():
