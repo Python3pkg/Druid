@@ -53,7 +53,7 @@ class Thumbnail:
             )
 
     def save(self, force=False):
-        if not isfile(self.file_path()):
+        if not isfile(self.file_path()) or force:
             img = PIL_Image.open(self.image.file_path())
             out = img.resize(self.size)
             out.save(self.file_path())
@@ -127,6 +127,13 @@ class Druid:
         self.public_static = public_static
         self.image_prefix = image_prefix
         self.thumb_prefix = thumb_prefix
+
+    @property
+    def image_dir(self):
+        return join(
+            self.local_static,
+            self.image_prefix,
+            )
 
     def page(self, *args, **kwargs):
         return t.html(
