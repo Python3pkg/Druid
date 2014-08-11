@@ -22,15 +22,15 @@ from setuptools import setup
 with open('README.rst') as file:
     long_description = file.read()
 
-setup(name='Tumulus',
-      version='0.1',
+setup(name='Druid',
+      version='0.2',
       description='Doing Magic things with Tumulus',
       long_description=long_description,
       author='OKso.me',
       author_email='@okso.me',
       url='https://github.com/oksome/Druid',
       packages=['druid'],
-      install_requires=['tumulus'],
+      install_requires=['tumulus', 'Pillow'],
       license='AGPLv3',
       keywords="html generator template templating engine",
       classifiers=['Development Status :: 3 - Alpha',

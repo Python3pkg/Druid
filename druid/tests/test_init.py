@@ -20,13 +20,14 @@
 
 from os.path import dirname, realpath, join, isfile
 from os import remove
+from tumulus import tags
 
-from druid import Druid, bootstrap, p
+from druid import Druid, bootstrap
 
 HERE = dirname(realpath(__file__))
 
 
-LOREM = p('''
+LOREM = tags.p('''
 According to Pastafarian "beliefs", pirates are "absolute divine beings" and
 the original Pastafarians. Furthermore, Pastafarians believe that the
 concept of pirates as "thieves and outcasts" is misinformation spread by
@@ -39,7 +40,7 @@ of the mysteriously lost ships and planes of the Bermuda Triangle.
 Pastafarians celebrate International Talk Like a Pirate Day on September 19.
 ''')
 
-IPSUM = p('''
+IPSUM = tags.p('''
 The inclusion of pirates in Pastafarianism was part of Henderson's original
 letter to the Kansas State Board of Education, in an effort to illustrate
 that correlation does not imply causation.[39] Henderson presented the
@@ -60,6 +61,11 @@ def local_druid():
     return Druid(local_static=join(HERE, 'static'))
 
 
+def test_druid_methods():
+    druid = local_druid()
+    assert druid.image_dir == HERE + '/static/img'
+
+
 def test_page():
     druid = local_druid()
     p = druid.page()
@@ -75,24 +81,6 @@ def test_page():
  <body>
  </body>
 </html>'''
-
-
-def test_image():
-    druid = local_druid()
-    i = druid.image('druid_circle.jpg', alt='Druid Circle')
-    assert i
-
-    result = i.build()
-    assert result == \
-        '<img alt="Druid Circle" src="/static/img/druid_circle.jpg"/>\n'
-
-    assert i.file_path() == join(HERE, 'static', 'img', 'druid_circle.jpg')
-
-    f = i.file()
-    assert f
-    data = f.read()
-    assert data
-    assert len(data) == 226450
 
 
 def test_page_with_image():
@@ -113,24 +101,6 @@ def test_page_with_image():
   <img alt="Druid Circle" src="/static/img/druid_circle.jpg"/>
  </body>
 </html>'''
-
-
-def test_thumbnail():
-    thumb_path = join(HERE, 'static', 'thumb', 'druid_circle-100x100.jpg')
-    if isfile(thumb_path):
-        remove(thumb_path)
-
-    druid = local_druid()
-    t = druid.image('druid_circle.jpg', alt='Druid Circle').thumb((100, 100))
-    assert t
-
-    result = t.build()
-    assert result == (
-        '<img alt="Druid Circle"'
-        ' src="/static/thumb/druid_circle-100x100.jpg"/>\n')
-
-    assert t.file_path() == thumb_path
-    assert isfile(t.file_path())
 
 
 def test_bootstrap_starter():
