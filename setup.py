@@ -23,7 +23,7 @@ with open('README.rst') as file:
     long_description = file.read()
 
 setup(name='Druid',
-      version='0.2',
+      version='0.2.1',
       description='Doing Magic things with Tumulus',
       long_description=long_description,
       author='OKso.me',
