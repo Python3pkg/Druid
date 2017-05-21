@@ -21,6 +21,6 @@ __author__ = "OKso <okso.me>"
 __version__ = '0.2.1'
 
 
-from druid.druid import Druid
-import druid.image as image
-import druid.bootstrap as bootstrap
+from .druid.druid import Druid
+from . import druid.image as image
+from . import druid.bootstrap as bootstrap

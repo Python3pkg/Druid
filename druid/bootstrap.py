@@ -62,7 +62,7 @@ def navbar(items):
 
 def page_starter(title='', body='', menu=()):
     nav = navbar(menu) if menu else ()
-    print('navbar', nav)
+    print(('navbar', nav))
 
     return t.html(
         lib.css('bootstrap'),

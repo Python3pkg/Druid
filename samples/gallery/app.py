@@ -45,7 +45,7 @@ def image_with_legend(name, legend):
 
 @app.get('/')
 def index():
-    print(listdir(druid.image_dir))
+    print((listdir(druid.image_dir)))
     page = druid.page(
         'hello',
         [image_with_legend(i, i)

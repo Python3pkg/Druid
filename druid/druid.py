@@ -20,7 +20,7 @@
 from os.path import join
 from tumulus import tags as t, formulas as f, lib
 
-from druid.image import Image
+from .druid.image import Image
 
 __all__ = ('Druid', )
 
